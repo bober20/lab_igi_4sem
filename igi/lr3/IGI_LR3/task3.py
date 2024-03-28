@@ -2,20 +2,20 @@
 # LR 3.
 # 23.03.24
 
-
+import time
 import useful_functions
 
 
-# def decorator_timer(func):
-#     """This is a decorator that counts amount of time spent on processing."""
-#
-#     def wrapper(string):
-#         start_time = time.time()
-#         print(func(string))
-#         end_time = time.time()
-#         return "Time spent: " + str(end_time - start_time)
-#
-#     return wrapper
+def decorator_timer(func):
+    """This is a decorator that counts amount of time spent on processing."""
+
+    def wrapper(string):
+        start_time = time.time()
+        print(func(string))
+        end_time = time.time()
+        return "Time spent: " + str(end_time - start_time)
+
+    return wrapper
 
 
 def decorator_docstring(func):
@@ -32,7 +32,10 @@ def decorator_docstring(func):
 def count_letters(string):
     """This function counts amount of uppercase letters in a string."""
 
+    # counter = sum(1 for ch in string if ch.isupper())
+
     counter = 0
+
     for character in string:
         if character.isupper():
             counter += 1

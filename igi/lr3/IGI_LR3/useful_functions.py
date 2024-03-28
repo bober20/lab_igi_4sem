@@ -6,6 +6,11 @@ def generator(init_array):
     return values
 
 
+def generator_function(init_array):
+    for i in init_array:
+        yield i*3
+
+
 def decorator_for_menu(func):
     """This decorator allows to start function multiple times."""
 
