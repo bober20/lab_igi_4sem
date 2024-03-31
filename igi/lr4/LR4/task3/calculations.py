@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import statistics
 
 
-class LnFunction:
+class LnCalculations:
     x_list = list()
     y_func = list()
     y_math = list()
@@ -16,6 +16,14 @@ class LnFunction:
     mode = 0
     variance = 0
     stdev = 0
+
+    def __init__(self):
+        self.xy_preparation_for_plot()
+
+        self.count_median()
+        self.count_mode()
+        self.count_stdev()
+        self.count_variance()
 
     def count_using_power_series(self, x, eps=0.1):
         """This function finds the result using power series."""
@@ -42,7 +50,7 @@ class LnFunction:
             self.y_math.append(result[1])
 
     def plot_screen(self):
-        self.xy_preparation_for_plot()
+        # self.xy_preparation_for_plot()
         plt.plot(self.x_list, self.y_math, label="math")
         plt.plot(self.x_list, self.y_func, label="my_func")
         plt.xlabel('Ось х')  # Подпись для оси х
@@ -51,11 +59,11 @@ class LnFunction:
         plt.legend(loc='best', fontsize=12)
         plt.title('График для логарифма')  # Название
 
-        self.plot_to_file()
+        self.plot_file()
 
         plt.show()
 
-    def plot_to_file(self):
+    def plot_file(self):
         plt.savefig('lr_files/math_and_func.pdf')
 
     def count_median(self):
