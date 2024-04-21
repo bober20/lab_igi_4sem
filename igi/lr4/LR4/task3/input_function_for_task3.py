@@ -8,5 +8,6 @@ def input_function_for_task3():
     print("Stdev: ", calculations.stdev)
     print("Variance: ", calculations.variance)
     print("Median: ", calculations.median)
+    print("Average: ", calculations.average)
 
     calculations.plot_screen()

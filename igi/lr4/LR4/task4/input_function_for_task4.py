@@ -3,10 +3,6 @@ from task4.parallelogram import Parallelogram
 
 
 def input_function_for_task4():
-    d1 = 0
-    d2 = 0
-    angle = 0
-    color = ""
 
     string = input("Enter the first parallelogram's diagonal: ")
 

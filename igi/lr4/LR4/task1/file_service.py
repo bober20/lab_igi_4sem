@@ -1,5 +1,6 @@
 import pickle
 import csv
+import shelve
 
 
 class FileService:
@@ -18,17 +19,51 @@ class FileService:
 
     def serialize_using_csv(self):
         with open('lr_files/data.csv', 'w', newline='') as f:
-            writer = csv.writer(f, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            columns = ["name", "votes"]
+            writer = csv.DictWriter(f, fieldnames=columns)
 
-            for i in self.items_dict.keys():
-                writer.writerow([i] + [self.items_dict[i]])
+            writer.writeheader()
+
+            for name, votes in sorted(self.items_dict.items()):
+                writer.writerow(dict(name=name, votes=votes))
+
+            # writer = csv.writer(f, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            #
+            # for i in self.items_dict.keys():
+            #     writer.writerow([i] + [self.items_dict[i]])
+
 
     def deserialize_using_csv(self):
         with open('lr_files/data.csv', 'r', newline='') as f:
-            reader = csv.reader(f, delimiter=' ', quotechar='|')
+            reader = csv.DictReader(f)
 
-            candidates = dict()
+            items_dict = dict()
+
             for row in reader:
-                candidates.update({row[0]: row[1]})
+                items_dict.update({row["name"]: row["votes"]})
 
-        return candidates
+            # reader = csv.reader(f, delimiter=',', quotechar='|')
+            #
+            # items_dict = dict()
+            # for row in reader:
+            #     items_dict.update({row[0]: row[1]})
+
+        return items_dict
+
+
+    def serialize_using_binary(self):
+        with shelve.open('lr_files/data.bin') as items_list:
+            for i in self.items_dict.keys():
+                items_list[i] = self.items_dict[i]
+
+
+    def deserialize_using_binary(self):
+        with shelve.open('lr_files/data.bin') as items_list:
+            items_dict = dict()
+
+            for i in sorted(items_list):
+                items_dict.update({i: items_list[i]})
+
+        return items_dict
+
+

@@ -9,11 +9,15 @@ def input_function_for_task1():
 
     file_service.serialize_using_pickle()
     file_service.serialize_using_csv()
+    file_service.serialize_using_binary()
 
     deserialized_data_pickle = file_service.deserialize_using_pickle()
     deserialized_data_csv = file_service.deserialize_using_csv()
+    deserialized_data_binary = file_service.deserialize_using_binary()
+
     print("Deserialized data using pickle: ", deserialized_data_pickle)
     print("Deserialized data using csv: ", deserialized_data_csv)
+    print("Deserialized data using binary: ", deserialized_data_binary)
 
     election.initialize_candidates_using_dict(deserialized_data_pickle)
 

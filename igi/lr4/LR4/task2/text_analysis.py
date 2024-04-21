@@ -1,32 +1,15 @@
 import re
+import zipfile
+from task2 import file_service
 
 
 class TextAnalysis:
-    text_from_file = ""
 
     def __init__(self):
-        self.read_text_from_file()
+        self.service = file_service.FileService()
 
-    def read_text_from_file(self, file_path="lr_files/text.txt"):
-        """This function reads text from file."""
+        self.text_from_file = self.service.read_text_from_file()
 
-        file = open(file_path, 'r')
-
-        self.text_from_file = file.read()
-
-        file.close()
-
-    def write_results_to_file(self, file_path="lr_files/result.txt"):
-        """This function writes text in file."""
-
-        file = open(file_path, 'w')
-
-        result = self.return_results_from_all_functions()
-
-        for i in result:
-            file.write(str(i))
-
-        file.close()
 
     def print_result(self):
         """This function prints result."""
@@ -36,7 +19,11 @@ class TextAnalysis:
         for i in result:
             print(i, '\n')
 
-        self.write_results_to_file()
+        self.service.write_results_to_file(result=result)
+        self.service.make_zip()
+        print("Inner files info.")
+        self.service.get_inner_files_info()
+
 
     def return_results_from_all_functions(self):
         """This function returns result from all functions."""
@@ -140,9 +127,9 @@ class TextAnalysis:
     def count_sentences_type(self):
         """This function counts sentences of 3 types."""
 
-        narr_count = len(re.findall(r'\w+\s+[.]\s+', self.text_from_file))  # Повествовательные предложения
-        interrogate_count = len(re.findall(r'\w+\s+[?]\s+', self.text_from_file))  # Вопросительные предложения
-        imper_count = len(re.findall(r'\w+\s+!\s+', self.text_from_file))  # Побудительные предложения
+        narr_count = len(re.findall(r'\w+[.]', self.text_from_file))  # Повествовательные предложения
+        interrogate_count = len(re.findall(r'\w+[?]', self.text_from_file))  # Вопросительные предложения
+        imper_count = len(re.findall(r'\w+!', self.text_from_file))  # Побудительные предложения
 
         return narr_count, interrogate_count, imper_count
 

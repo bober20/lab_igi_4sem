@@ -8,5 +8,5 @@ from task5.input_function_for_task5 import input_function_for_task5
 
 
 if __name__ == '__main__':
-    input_function_for_task5()
+    input_function_for_task2()
 

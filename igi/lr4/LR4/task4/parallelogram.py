@@ -13,6 +13,7 @@ class Parallelogram(GeometricFigure):
         self.d2 = d2
         self.angle = angle
         self.color = FigureColor(color)
+        super().__init__("Parallelogram")
 
     def get_squire(self):
         return self.d1 * self.d2 * math.sin(self.angle) / 2

@@ -16,6 +16,7 @@ class LnCalculations:
     mode = 0
     variance = 0
     stdev = 0
+    average = 0
 
     def __init__(self):
         self.xy_preparation_for_plot()
@@ -24,6 +25,7 @@ class LnCalculations:
         self.count_mode()
         self.count_stdev()
         self.count_variance()
+        self.count_average()
 
     def count_using_power_series(self, x, eps=0.1):
         """This function finds the result using power series."""
@@ -77,5 +79,8 @@ class LnCalculations:
 
     def count_stdev(self):
         self.stdev = statistics.stdev(self.x_list)
+
+    def count_average(self):
+        self.average = sum(self.x_list) / len(self.x_list)
 
 
