@@ -81,6 +81,6 @@ class LnCalculations:
         self.stdev = statistics.stdev(self.x_list)
 
     def count_average(self):
-        self.average = sum(self.x_list) / len(self.x_list)
+        self.average = statistics.mean(self.x_list)
 
 
