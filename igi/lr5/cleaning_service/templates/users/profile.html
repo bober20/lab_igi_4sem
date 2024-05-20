@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>Personal info</h1>
+    <p>Lastname: {{ current_user.user.last_name }}</p>
+    <p>Firstname: {{ current_user.user.first_name }}</p>
+    <p>Email: {{ current_user.user.email }}</p>
+    
+    {% if user.is_staff %}
+        <img src="{{ current_user.image_source.url }}" alt="Profile image" width="200"/>
+    {% endif %}
+    
+    <h2>Timezone data</h2>
+    <p>User timezone: {{ user_timezone }}</p>
+    <p>User time: {{ current_date_formatted }}</p>
+    <p>Calendar: {{ calendar_text }}</p>
+    <p>UTC: {{ utc_time }}</p>
+    {% if user.is_staff %}
+        
+        <h2>Clients</h2>
+        {% for client in clients %}
+            <p>Client lastname: {{ client.user.last_name }}</p>
+            <p>Client firstname: {{ client.user.first_name }}</p>
+            <p>Client email: {{ client.user.email }}</p>
+        {% endfor %}
+    {% else %}
+        <p>Month total prise: {{ monthly_statistics }}</p>
+    {% endif %}
+    
+    <h2>Orders</h2>
+    {% if not user.is_staff %}
+        <a href="{% url 'cleaning_service:add_order' %}">Add order</a>
+    {% endif %}
+    <p>{{ orders }}</p>
+    {% if not user.is_staff %}
+    {% for order in orders %}
+        <div style="border:1px solid black;">
+            <p>Order id: {{ order.pk }}</p>
+            <p>Order date: {{ order.date_time }}</p>
+            <p>Order total price: {{ order.get_total_price }}</p>
+            <a href="{{ order.get_absolute_url_to_more_info }}">More info about order</a>
+            {% if not user.is_staff %}
+                <a href="{{ order.get_absolute_url_to_add }}">Add service</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+        {% else %}
+        {% for client, orders in orders_by_client.items %}
+        <h2>{{ client.user.get_full_name }}</h2>
+            {% for order in orders %}
+                <p>Order id: {{ order.pk }}</p>
+                <p>Order date: {{ order.date_time }}</p>
+                <p>Order total price: {{ order.get_total_price }}</p>
+                <a href="{{ order.get_absolute_url_to_more_info }}">More info about order</a>
+            {% endfor %}
+    {% endfor %}
+    {% endif %}
+    
+{% endblock %}

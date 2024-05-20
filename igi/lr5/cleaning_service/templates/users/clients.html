@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Our clients</h1>
+    
+    {% for client in clients %}
+        <div style="border:1px solid black;">
+            <p>Client's lastname: {{ client.user.last_name }}</p>
+            <p>Client's email: {{ client.user.email }}</p>
+            <a href="{{ client.user.get_absolute_url_for_delete }}">Delete</a>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>Our contacts</h1>
+    
+    {% for employee in employees %}
+        <div style="border:1px solid black;">
+            <h2>Employee name: {{ employee.user.last_name }} {{ employee.user.first_name }}</h2>
+            <p>Employee position: {{ employee.position.name }}</p>
+            <p>Employee telephone: {{ employee.user.telephone }}</p>
+            <p>Employee email: {{ employee.user.email }}</p>
+            <p>Employee has been working since: {{ employee.date_of_beginning }}</p>
+            <p><img src="{{ employee.image_source.url }}" alt="Employee image" width="200"/></p>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    
+    <h1>About our company</h1>
+    {% for comp in company %}
+        <h1>Company name: {{ comp.name }}</h1>
+        <img src="{{ comp.logo.url }}" alt="Company image" width="200"/>
+        <p><video width="320" height="240" controls src="{{ comp.video.url }}"></video></p>
+    {% endfor %}
+    {% for story in stories %}
+        <div>
+            <h2>{{ story.title }}</h2>
+            <p>{{ story.content }}</p>
+            <p>{{ story.date }}</p>
+        </div>
+    {% endfor %}
+    
+    {% if user.is_staff %}
+        <h1>Company statistics</h1>
+        <p>Client age median: {{ client_age_median }}</p>
+        <p>Client age mean: {{ client_age_mean }}</p>
+        <p>Client age mode: {{ client_age_mode }}</p>
+        <p>Average service price: {{ average_service_price }}</p>
+        <p>Get difference between the highest price and average: {{ get_difference_between_highest_price_and_average }}</p>
+        <p>The highest price of the order: {{ get_order_with_highest_price }}</p>
+        <img src="data:image/png;base64,{{ histogram_url }}" alt="Service Type Histogram">
+        
+        {% for client in clients_with_order_count %}
+            <h2>Client email: {{ client.user.email }}. Number of orders: {{ client.order_count }}</h2>
+            {% for order in client.order_set.all %}
+                <p>Order id: {{ order.id }}. Order date: {{ order.date_time }}. Total price: {{ order.get_total_price }}</p>
+            {% endfor %}    
+        {% endfor %}
+    {% endif %}
+    
+{% endblock %}

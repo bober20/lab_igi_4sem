@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript">
+        document.cookie = 'timezone=' + Intl.DateTimeFormat().resolvedOptions().timeZone;
+    </script>
+    
+    <meta charset="UTF-8">
+    <title>Cleaning service</title>
+</head>
+<body>
+    <div>
+        <ul>
+            <li><a href="{% url 'cleaning_service:main' %}">Main page</a></li>
+            <li><a href="{% url 'cleaning_service:about_company' %}">About company</a></li>
+            <li><a href="{% url 'cleaning_service:news' %}">News</a></li>
+            <li><a href="{% url 'cleaning_service:dictionary' %}">Dictionary</a></li>
+            <li><a href="{% url 'cleaning_service:contacts' %}">Contact info</a></li>
+            <li><a href="{% url 'cleaning_service:privacy_policy' %}">Privacy policy</a></li>  
+            <li><a href="{% url 'cleaning_service:vacancies' %}">Vacancies</a></li>
+            <li><a href="{% url 'cleaning_service:discounts' %}">Discounts</a></li>
+            <li><a href="{% url 'cleaning_service:services_types' %}">Services types</a></li>
+            <li><a href="{% url 'cleaning_service:reviews' %}">Reviews</a></li>
+            {% if user.is_authenticated %}
+                {% if not user.is_superuser %}
+                {% if user.is_staff %}
+                    <li><a href="{% url 'users:employee_profile' %}">Profile</a></li>
+                {% else %}
+                    <li><a href="{% url 'users:client_profile' %}">Profile</a></li>
+                {% endif %}
+                {% endif %}
+                <li><a href="{% url 'users:logout' %}">Log out</a></li>
+            {% else %}
+                <li><a href="{% url 'users:login' %}">Log in</a></li>
+                <li><a href="{% url 'users:registration' %}">Sign up</a></li>
+            {% endif %}
+        
+            {% if user.is_staff %}
+                <li><a href="{% url 'cleaning_service:employee_positions' %}">Employee positions</a></li>
+                <li><a href="{% url 'users:employees' %}">Employees</a></li>
+            {% endif %}
+        
+            {% if user.is_superuser %}
+                <li><a href="{% url 'users:clients' %}">Clients</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>

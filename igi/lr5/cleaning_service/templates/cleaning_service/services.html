@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Our services</h1>
+    
+    {% if user.is_superuser %}
+        <h2>Add new service</h2>
+        <li><a href="{% url 'cleaning_service:add_service' %}">Add service</a></li>
+    {% endif %}
+    
+    {% for service_type in service_types %}
+        <div style="border:1px solid black;">
+            <p>Name of the service: {{ service_type.name }}</p>
+            <p>Price: {{ service_type.price }}</p>
+            <p>Extra information: {{ service_type.extra_info }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        <p>Cat fact: {{ cat_facts }}</p>
+        <p>Current bitcoin price: {{ bitcoin_price }}</p>
+    {% endif %}
+    
+    <h1>{{ latest_news.title }}</h1>
+    <p>{{ latest_news.content }}</p>
+    <img src="{{ latest_news.image_source.url }}" alt="News image" width="200"/>
+{% endblock %}

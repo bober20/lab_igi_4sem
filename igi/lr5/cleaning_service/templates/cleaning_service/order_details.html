@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Your order details</h1>
+    <p>Order id: {{ order.pk }}</p>
+    <p>Order id: {{ order.date_time }}</p>
+    <p>Order id: {{ order.total_price }}</p>
+    <a href="{{ order.get_absolute_url_to_add }}">Add service</a>
+    {% for service in services %}
+        <p>Service type name: {{ service.service_type.name }}</p>
+        <p>Number of the service: {{ service.number }}</p>
+        <a href="{{ service_type.get_absolute_url_for_delete }}">Delete</a>
+        <a href="{{ service_type.get_absolute_url_for_update}}">Update</a>
+    {% endfor %}
+{% endblock %}

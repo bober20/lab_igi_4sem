@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Our employees</h1>
+    
+    {% if user.is_superuser %}
+        <h2>Add employee</h2>
+        <li><a href="{% url 'users:add_employee' %}">Add employee</a></li>
+    {% endif %}
+    
+    {% for employee in employees %}
+        <div style="border:1px solid black;">
+            <p>Employee's lastname: {{ employee.user.last_name }}</p>
+            <p>Employee's email: {{ employee.email }}</p>
+            {% if user.is_superuser %}
+                <a href="{{ employee.user.get_absolute_url_for_delete }}">Delete</a>
+                <a href="{{ employee.user.get_absolute_url_for_update }}">Update</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
