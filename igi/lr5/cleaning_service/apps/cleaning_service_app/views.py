@@ -9,7 +9,7 @@ from apps.cleaning_service_app.apis import *
 import apps.cleaning_service_app.models as models
 from apps.cleaning_service_app import services
 from apps.cleaning_service_app.forms import ReviewForm, ServiceTypeForm, EmployeePositionForm, VacancyForm, OrderForm, \
-    ServiceForm, QuestionForm, AnswerForm
+    ServiceForm, QuestionForm, AnswerForm, SearchForm
 import logging
 
 logger = logging.getLogger('django')
@@ -185,13 +185,43 @@ def delete_service_type(request, pk):
 
     return redirect('cleaning_service:services_types')
 
+# def post_search(request):
+#     form = SearchForm()
+#     if 'query' in request.GET:
+#         form = SearchForm(request.GET)
+#         if form.is_valid():
+#             cd = form.cleaned_data
+#             results = SearchQuerySet().models(models.ServiceType).filter(content=cd['query']).load_all()
+#             # count total results
+#             total_results = results.count()
+#     return render(request,
+#                   'blog/post/search.html',
+#                   {'form': form,
+#                    'cd': cd,
+#                    'results': results,
+#                    'total_results': total_results})
+
 
 class ServicesTypesView(View):
     template_name = "cleaning_service/services.html"
+    form = SearchForm
 
     def get(self, request):
-        context = {'service_types': models.ServiceType.objects.all().order_by('-price')}
+        context = {'service_types': models.ServiceType.objects.all().order_by('-price'), 'form': self.form}
         return render(request, self.template_name, context)
+
+    def post(self, request):
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            service_types = models.ServiceType.objects.filter(name=cd['query']).order_by('-price')
+            total_results = service_types.count()
+            return render(request,
+                              self.template_name,
+                              {'form': form,
+                               'service_types': service_types,
+                               'total_results': total_results})
+
 
 
 class AddEmployeePositionView(View):
@@ -480,3 +510,6 @@ def discounts_page(request):
     context = {"promo_codes": promo_codes, "bonuses": bonuses}
 
     return render(request, "cleaning_service/discounts.html", context)
+
+
+

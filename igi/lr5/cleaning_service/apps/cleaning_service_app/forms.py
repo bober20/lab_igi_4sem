@@ -61,6 +61,10 @@ class AnswerForm(forms.ModelForm):
         exclude = ['date']
 
 
+class SearchForm(forms.Form):
+    query = forms.CharField()
+
+
 # class ServiceTypeForm(forms.ModelForm):
 #     service = forms.ModelChoiceField(queryset=ServiceType.objects.all(), widget=forms.ChoiceField)
 #     employee = forms.ModelChoiceField(queryset=Employee.objects.all(), widget=forms.ChoiceField)
